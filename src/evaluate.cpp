@@ -34,11 +34,13 @@
 namespace Eval {
 
   bool useNNUE;
+  int nnue_scale;
   std::string eval_file_loaded="None";
 
   void init_NNUE() {
 
-    useNNUE = Options["Use NNUE"];
+    useNNUE = Options["Use_NNUE"];
+    nnue_scale = Options["NNUE_Scale"];
     std::string eval_file = std::string(Options["EvalFile"]);
     if (useNNUE && eval_file_loaded != eval_file)
         if (Eval::NNUE::load_eval_file(eval_file))
@@ -942,7 +944,7 @@ Value Eval::evaluate(const Position& pos) {
       Value v = eg_value(pos.psq_score());
       // Take NNUE eval only on balanced positions
       if (abs(v) < NNUEThreshold)
-         return NNUE::evaluate(pos);
+         return nnue_scale*NNUE::evaluate(pos)/100;
   }
   return Evaluation<NO_TRACE>(pos).value();
 }
@@ -964,7 +966,7 @@ std::string Eval::trace(const Position& pos) {
 
   if (Eval::useNNUE)
   {
-      v = NNUE::evaluate(pos);
+      v = nnue_scale*NNUE::evaluate(pos)/100;
   }
   else
   {

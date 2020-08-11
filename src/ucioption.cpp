@@ -41,6 +41,7 @@ void on_logger(const Option& o) { start_logger(o); }
 void on_threads(const Option& o) { Threads.set(size_t(o)); }
 void on_tb_path(const Option& o) { Tablebases::init(o); }
 void on_use_NNUE(const Option& ) { Eval::init_NNUE(); }
+void on_NNUE_scale(const Option& ) { Eval::init_NNUE(); }
 void on_eval_file(const Option& ) { Eval::init_NNUE(); }
 
 /// Our case insensitive less() function as required by UCI protocol
@@ -78,8 +79,9 @@ void init(OptionsMap& o) {
   o["SyzygyProbeDepth"]      << Option(1, 1, 100);
   o["Syzygy50MoveRule"]      << Option(true);
   o["SyzygyProbeLimit"]      << Option(7, 0, 7);
-  o["Use NNUE"]              << Option(false, on_use_NNUE);
+  o["Use_NNUE"]              << Option(false, on_use_NNUE);
   o["EvalFile"]              << Option("nn-9931db908a9b.nnue", on_eval_file);
+  o["NNUE_Scale"]            << Option(100, 50, 500);
 }
 
 
